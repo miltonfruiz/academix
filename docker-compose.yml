@@ -1,0 +1,32 @@
+```yml
+version: '3'
+services:
+  backend:
+    container_name: academix-backend
+    build: ./backend
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+    environment:
+      - DATABASE_URL=mongodb://mongo:27017/academix
+
+  frontend:
+    container_name: academix-frontend
+    build: ./frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+  mongo:
+    container_name: academix-mongo
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - academix-mongo-data:/data/db
+
+volumes:
+  academix-mongo-data:
+```
